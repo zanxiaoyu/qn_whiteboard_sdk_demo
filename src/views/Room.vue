@@ -7,9 +7,17 @@
 <script>
   import QNWhiteBoard from "qnweb-whiteboard";
   export default {
+    data() {
+      return {
+        client: null
+      }
+    },
+    computed: {
+    },
     mounted() {
-      const client = QNWhiteBoard.create()
-      client.initConfig({
+      // const client = QNWhiteBoard.create()
+      this.client = QNWhiteBoard.create()
+      this.client.initConfig({
         path: 'https://test4.xbbedu.cn:8071/MeetingServer/test/webassembly/whiteboardcanvas.html'
       })
       const appId = '7738fd99dbd546afa64d640be2bb4afe'
@@ -18,10 +26,10 @@
       const userId = '9'
       const bucketId = `2ba1a21c-5f9f-48d1-bf04-03faff584441`
 
-      const instance = client.createInstance(bucketId)
+      const instance = this.client.createInstance(bucketId)
       console.log(instance);
 
-      client.registerRoomEvent({
+      this.client.registerRoomEvent({
         onJoinSuccess: (userlist) => console.log('onJoinSuccess', userlist),
         onJoinFailed: () => console.log('onJoinFailed'),
         onRoomStatusChanged: (code) => console.log('onRoomStatusChanged', code),
@@ -35,15 +43,17 @@
         onWidgetActivity: (widget) => console.log('onWidgetActivity', widget),
         webAssemblyOnReady: () => {
           console.log('webAssemblyOnReady')
-          client.joinRoom(appId, meetingId, userId, token)
+          // client.joinRoom(appId, meetingId, userId, token)
+          // 这里joinRoom方法通过data里的client调用就会报错，如用18行的常量就没问题
+          this.client.joinRoom(appId, meetingId, userId, token)
         }
       })
 
-      instance.registerWhiteBoardEvent({
-        onWhiteBoardOpened: (size) => console.log("onWhiteBoardOpened", size),
-        onWhiteBoardOpenFailed: () => console.log('onWhiteBoardOpenFailed'),
-        onWhiteBoardClosed: () => console.log('onWhiteBoardClosed'),
-      })
+      // instance.registerWhiteBoardEvent({
+      //   onWhiteBoardOpened: (size) => console.log("onWhiteBoardOpened", size),
+      //   onWhiteBoardOpenFailed: () => console.log('onWhiteBoardOpenFailed'),
+      //   onWhiteBoardClosed: () => console.log('onWhiteBoardClosed'),
+      // })
     }
   }
 </script>
