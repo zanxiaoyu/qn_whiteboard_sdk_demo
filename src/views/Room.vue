@@ -1,33 +1,34 @@
 <template>
   <div class="room">
     <h1>room</h1>
-    <button @click="switchBucket">switchBucket</button>
+    <input type="text" v-model="bucketId"><button @click="switchBucket">switchBucket</button>
     <div id="iframeBox"></div>
   </div>
 </template>
 <script>
-  import QNWhiteBoard from "qnweb-whiteboard";
+  // import QNWhiteBoard from "qnweb-whiteboard";
   export default {
     data() {
       return {
         client: null,
-        instance: null
+        instance: null,
+        bucketId: ""
       }
     },
     computed: {
     },
     mounted() {
-      // this.client = window.whiteboard.controller
-      this.client = QNWhiteBoard.create()
+      this.client = window.whiteboard.controller
+      // this.client = QNWhiteBoard.create()
       this.client.initConfig({
         path: 'https://test4.xbbedu.cn:8071/MeetingServer/test/webassembly/whiteboardcanvas.html'
       })
-      const appId = '7738fd99dbd546afa64d640be2bb4afe'
-      const meetingId = 'c16454f95d3f44e6b286c8362fde97fd'
-      const token = '215f954eee187fd96b45acb57649ada4'
+      const appId = 'a84fbe953cc14e2bbbe0c63c40d5081f'
+      const meetingId = '440a94d486624cd5a2dfce3ed95e1a39'
+      const token = 'd08da2a942f20747096c0474c0a49f34'
       const userId = '9'
-      // const url = 'https://sdk.efaceboard.cn:8888/Chatboard/meeting/join'
-      const bucketId = `2ba1a21c-5f9f-48d1-bf04-03faff584441`
+      const url = 'https://sdk.efaceboard.cn:8888/Chatboard/meeting/join'
+      const bucketId = `f251daaa-69f6-488c-8b72-a1095739047f`
 
 
       this.instance = this.client.createInstance(bucketId)
@@ -46,7 +47,7 @@
         onWidgetActivity: (widget) => console.log('onWidgetActivity', widget),
         webAssemblyOnReady: () => {
           console.log('webAssemblyOnReady')
-          this.client.joinRoom(appId, meetingId, userId, token)
+          this.client.join_room(url, appId, meetingId, userId, token)
         }
       })
 
@@ -58,7 +59,7 @@
     },
     methods: {
       switchBucket() {
-        this.instance.switchBucket('c5b4d380-21d7-43af-8859-64639d801f73')
+        this.instance.switchBucket(this.bucketId)
       }
     },
     beforeRouteLeave(to,from , next) {
