@@ -5,12 +5,12 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    client: null
+    client: null,
   },
   mutations: {
     set_client(state, client) {
-      state.client = client
-    }
+      state.client = client;
+    },
   },
   actions: {},
   modules: {},
